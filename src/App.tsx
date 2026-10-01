@@ -1,13 +1,14 @@
 import { useState } from "react";
+import { Link, Route, Routes } from "react-router-dom";
 import "./App.css";
 import BusRoutes from "./components/bus-routes/BusRoutes";
 import FavouriteRoutes from "./components/favourite-routes/FavouriteRoutes";
-import type { Route } from "./types/Route";
+import type { Route as BusRoute } from "./types/Route";
 
 function App() {
-  const [favouriteRoutes, setFavouriteRoutes] = useState<Route[]>([]);
+  const [favouriteRoutes, setFavouriteRoutes] = useState<BusRoute[]>([]);
 
-  function addFavourite(route: Route) {
+  function addFavourite(route: BusRoute) {
     if (!favouriteRoutes.some((item) => item.id === route.id)) {
       setFavouriteRoutes([...favouriteRoutes, route]);
     }
@@ -24,15 +25,33 @@ function App() {
       <header>
         <h1>PeGGo</h1>
         <p>Winnipeg Transit Tracking</p>
+
+        <nav>
+          <Link to="/">Bus Routes</Link>
+          {" | "}
+          <Link to="/favourites">Favourite Routes</Link>
+        </nav>
       </header>
 
       <main>
-        <BusRoutes onAddFavourite={addFavourite} />
+        <Routes>
+          <Route
+            path="/"
+            element={
+              <BusRoutes onAddFavourite={addFavourite} />
+            }
+          />
 
-        <FavouriteRoutes
-          favouriteRoutes={favouriteRoutes}
-          onRemoveFavourite={removeFavourite}
-        />
+          <Route
+            path="/favourites"
+            element={
+              <FavouriteRoutes
+                favouriteRoutes={favouriteRoutes}
+                onRemoveFavourite={removeFavourite}
+              />
+            }
+          />
+        </Routes>
       </main>
 
       <footer>
