@@ -20,6 +20,10 @@ function App() {
     );
   }
 
+  function clearFavourites() {
+    setFavouriteRoutes([]);
+  }
+
   return (
     <>
       <header>
@@ -38,7 +42,10 @@ function App() {
           <Route
             path="/"
             element={
-              <BusRoutes onAddFavourite={addFavourite} />
+              <BusRoutes
+                onAddFavourite={addFavourite}
+                favouriteCount={favouriteRoutes.length}
+              />
             }
           />
 
@@ -48,6 +55,7 @@ function App() {
               <FavouriteRoutes
                 favouriteRoutes={favouriteRoutes}
                 onRemoveFavourite={removeFavourite}
+                onClearFavourites={clearFavourites}
               />
             }
           />

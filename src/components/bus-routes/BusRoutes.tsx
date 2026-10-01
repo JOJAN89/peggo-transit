@@ -1,11 +1,16 @@
 import { useState } from "react";
 import type { Route } from "../../types/Route";
+import RouteSearch from "../route-search/RouteSearch";
 
 type BusRoutesProps = {
   onAddFavourite: (route: Route) => void;
+  favouriteCount: number;
 };
 
-function BusRoutes({ onAddFavourite }: BusRoutesProps) {
+function BusRoutes({
+  onAddFavourite,
+  favouriteCount,
+}: BusRoutesProps) {
   const [searchTerm, setSearchTerm] = useState("");
 
   const routes: Route[] = [
@@ -26,21 +31,14 @@ function BusRoutes({ onAddFavourite }: BusRoutesProps) {
       <h2>Bus Routes</h2>
       <p>Explore Winnipeg bus routes.</p>
 
-      <input
-        type="text"
-        placeholder="Search routes"
-        value={searchTerm}
-        onChange={(event) => setSearchTerm(event.target.value)}
-      />
+      <p>
+        <strong>Saved favourites: {favouriteCount}</strong>
+      </p>
 
-      {searchTerm && (
-        <button
-          type="button"
-          onClick={() => setSearchTerm("")}
-        >
-          Clear Search
-        </button>
-      )}
+      <RouteSearch
+        searchTerm={searchTerm}
+        setSearchTerm={setSearchTerm}
+      />
 
       {filteredRoutes.length === 0 ? (
         <p>No routes found.</p>
