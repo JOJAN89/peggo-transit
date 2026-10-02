@@ -1,56 +1,27 @@
-* {
-  box-sizing: border-box;
+/* Whole App */
+#root {
+  min-height: 100vh;
+  background-color: #fff0f5;
 }
 
-body {
-  margin: 0;
-  font-family: Arial, Helvetica, sans-serif;
-  background-color: #f4f7f9;
-  color: #1f2933;
-}
-
+/* Header */
 header {
-  background-color: #0056a6;
+  background-color: #d94f7d;
   color: white;
   text-align: center;
-  padding: 30px 20px;
+  padding: 25px 20px;
 }
 
 header h1 {
   margin: 0;
-  font-size: 2.5rem;
+  font-size: 36px;
 }
 
 header p {
-  margin: 8px 0 0;
+  margin: 8px 0;
 }
 
-main {
-  display: flex;
-  gap: 30px;
-  max-width: 1100px;
-  margin: 40px auto;
-  padding: 20px;
-  align-items: flex-start;
-}
-
-.bus-routes,
-.favourite-routes {
-  flex: 1;
-  padding: 25px;
-  background-color: white;
-  border: 1px solid #d6dde3;
-  border-radius: 10px;
-}
-
-footer {
-  background-color: #1f2933;
-  color: white;
-  text-align: center;
-  padding: 20px;
-  margin-top: 40px;
-}
-
+/* Navigation */
 nav {
   margin-top: 20px;
 }
@@ -67,5 +38,206 @@ nav a {
 
 nav a:hover {
   background-color: white;
-  color: #0056a6;
+  color: #d94f7d;
+}
+
+/* Main Content */
+main {
+  max-width: 1100px;
+  margin: 40px auto;
+  padding: 0 20px;
+}
+
+/* Bus Routes Page */
+.bus-routes-page {
+  display: flex;
+  gap: 25px;
+  width: 100%;
+  align-items: flex-start;
+}
+
+/* LEFT - Bus Routes */
+.routes-column {
+  flex: 1;
+  background-color: #ffe4ec;
+  padding: 25px;
+  border: 2px solid #f4a6bd;
+  border-radius: 12px;
+}
+
+.routes-column h2 {
+  margin-top: 0;
+  color: #b83260;
+}
+
+/* Route List */
+.routes-column ul {
+  list-style: none;
+  padding: 0;
+}
+
+.routes-column li {
+  padding: 15px;
+  margin-bottom: 10px;
+  background-color: #fff5f8;
+  border: 1px solid #f7c7d5;
+  border-radius: 8px;
+}
+
+/* Route Buttons */
+.routes-column button {
+  margin-left: 10px;
+  padding: 7px 12px;
+  background-color: #d94f7d;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.routes-column button:hover {
+  background-color: #bd3f69;
+}
+
+/* Search Form */
+.routes-column form {
+  margin: 20px 0;
+}
+
+.routes-column label {
+  font-weight: bold;
+}
+
+.routes-column input {
+  padding: 9px;
+  margin: 5px 10px;
+  border: 1px solid #e7a0b5;
+  border-radius: 5px;
+  background-color: white;
+}
+
+/* RIGHT - Create New Route */
+.create-route-column {
+  flex: 0 0 280px;
+  background-color: #ffd6e2;
+  padding: 18px;
+  border: 2px solid #ed9ab3;
+  border-radius: 12px;
+}
+
+.create-route-column .add-route-form {
+  padding: 0;
+  margin: 0;
+  border: none;
+  background: transparent;
+}
+
+.create-route-column h2 {
+  margin-top: 0;
+  color: #b83260;
+  font-size: 21px;
+}
+
+/* Create Route Form */
+.create-route-column label {
+  display: block;
+  margin-bottom: 4px;
+  font-weight: bold;
+  color: #7d2948;
+}
+
+.create-route-column input {
+  width: 100%;
+  padding: 9px;
+  margin-bottom: 12px;
+  box-sizing: border-box;
+  background-color: white;
+  border: 1px solid #e7a0b5;
+  border-radius: 6px;
+}
+
+/* Add Route Button */
+.create-route-column button {
+  width: 100%;
+  background-color: #d94f7d;
+  color: white;
+  border: none;
+  padding: 10px;
+  border-radius: 7px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.create-route-column button:hover {
+  background-color: #bd3f69;
+}
+
+/* Error Message */
+.add-route-form p {
+  color: #a5224d;
+  font-weight: bold;
+}
+
+/* Favourite Routes */
+.favourite-routes {
+  background-color: #ffe4ec;
+  padding: 25px;
+  border: 2px solid #f4a6bd;
+  border-radius: 12px;
+}
+
+.favourite-routes h2 {
+  color: #b83260;
+}
+
+.favourite-routes ul {
+  list-style: none;
+  padding: 0;
+}
+
+.favourite-routes li {
+  padding: 15px;
+  margin-bottom: 10px;
+  background-color: #fff5f8;
+  border: 1px solid #f7c7d5;
+  border-radius: 8px;
+}
+
+.favourite-routes button {
+  margin-left: 10px;
+  padding: 7px 12px;
+  background-color: #d94f7d;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.favourite-routes button:hover {
+  background-color: #bd3f69;
+}
+
+/* Footer */
+footer {
+  text-align: center;
+  padding: 20px;
+  margin-top: 40px;
+  color: #9b3c5e;
+}
+
+/* Mobile */
+@media (max-width: 700px) {
+  .bus-routes-page {
+    flex-direction: column;
+  }
+
+  .routes-column,
+  .create-route-column {
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  .create-route-column {
+    flex: none;
+  }
 }
