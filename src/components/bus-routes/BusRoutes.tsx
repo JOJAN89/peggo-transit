@@ -1,88 +1,89 @@
+
 import { useState } from "react";
 import type { Route } from "../../types/Route";
 import RouteSearch from "../route-search/RouteSearch";
 import AddRouteForm from "../add-route-form/AddRouteForm";
+import { useRouteSearch } from "../../hooks/useRouteSearch";
+import { useFavourites } from "../../hooks/useFavourites";
+import { getRoutes, addRoute } from "../../services/routeService";
 
-type BusRoutesProps = {
-  onAddFavourite: (route: Route) => void;
-  favouriteCount: number;
-};
+/**
+ * BusRoutes displays bus routes and the creation form.
+ * useRouteSearch manages search presentation logic.
+ * useFavourites connects to shared favourite state.
+ * routeService handles route business rules and data access.
+ */
+function BusRoutes() {
+  const [routes, setRoutes] = useState<Route[]>(() => getRoutes());
 
-function BusRoutes({
-  onAddFavourite,
-  favouriteCount,
-}: BusRoutesProps) {
-  const [searchTerm, setSearchTerm] = useState("");
+  const { favouriteRoutes, saveFavourite } = useFavourites();
 
-  const [routes, setRoutes] = useState<Route[]>([
-    { id: 11, name: "Portage", destination: "Downtown" },
-    { id: 18, name: "North Main", destination: "Garden City" },
-    { id: 47, name: "Transcona", destination: "Downtown" },
-    { id: 60, name: "Pembina", destination: "University of Manitoba" },
-  ]);
+  const {
+    searchTerm,
+    setSearchTerm,
+    filteredRoutes,
+  } = useRouteSearch(routes);
 
-  function addRoute(newRoute: Route) {
-    const routeExists = routes.some(
-      (route) => route.id === newRoute.id
-    );
+  function handleAddRoute(newRoute: Route) {
+    const error = addRoute(newRoute);
 
-    if (routeExists) {
-      alert("A route with this number already exists.");
+    if (error) {
+      alert(error);
       return;
     }
 
-    setRoutes([...routes, newRoute]);
+    setRoutes(getRoutes());
   }
 
-  const filteredRoutes = routes.filter((route) =>
-    `${route.id} ${route.name} ${route.destination}`
-      .toLowerCase()
-      .includes(searchTerm.toLowerCase())
-  );
+  function handleAddFavourite(route: Route) {
+    const error = saveFavourite(route);
+
+    if (error) {
+      alert(error);
+    }
+  }
 
   return (
-  <section className="bus-routes-page">
+    <section className="bus-routes-page">
+      <div className="routes-column">
+        <h2>Bus Routes</h2>
+        <p>Explore Winnipeg bus routes.</p>
 
-    <div className="routes-column">
-      <h2>Bus Routes</h2>
-      <p>Explore Winnipeg bus routes.</p>
+        <p>
+          <strong>Saved favourites: {favouriteRoutes.length}</strong>
+        </p>
 
-      <p>
-        <strong>Saved favourites: {favouriteCount}</strong>
-      </p>
+        <RouteSearch
+          searchTerm={searchTerm}
+          setSearchTerm={setSearchTerm}
+        />
 
-      <RouteSearch
-        searchTerm={searchTerm}
-        setSearchTerm={setSearchTerm}
-      />
+        {filteredRoutes.length === 0 ? (
+          <p>No routes found.</p>
+        ) : (
+          <ul>
+            {filteredRoutes.map((route) => (
+              <li key={route.id}>
+                <strong>Route {route.id}</strong> - {route.name} -{" "}
+                {route.destination}
 
-      {filteredRoutes.length === 0 ? (
-        <p>No routes found.</p>
-      ) : (
-        <ul>
-          {filteredRoutes.map((route) => (
-            <li key={route.id}>
-              <strong>Route {route.id}</strong> - {route.name} -{" "}
-              {route.destination}
+                <button
+                  type="button"
+                  onClick={() => handleAddFavourite(route)}
+                >
+                  Add to Favourites
+                </button>
+              </li>
+            ))}
+          </ul>
+        )}
+      </div>
 
-              <button
-                type="button"
-                onClick={() => onAddFavourite(route)}
-              >
-                Add to Favourites
-              </button>
-            </li>
-          ))}
-        </ul>
-      )}
-    </div>
-
-    <div className="create-route-column">
-      <AddRouteForm onAddRoute={addRoute} />
-    </div>
-
-  </section>
-);
+      <div className="create-route-column">
+        <AddRouteForm onAddRoute={handleAddRoute} />
+      </div>
+    </section>
+  );
 }
 
 export default BusRoutes;
