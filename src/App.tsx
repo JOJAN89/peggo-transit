@@ -1,29 +1,17 @@
-import { useState } from "react";
+
 import { Link, Route, Routes } from "react-router-dom";
 import "./App.css";
+
 import BusRoutes from "./components/bus-routes/BusRoutes";
 import FavouriteRoutes from "./components/favourite-routes/FavouriteRoutes";
-import type { Route as BusRoute } from "./types/Route";
 
+/**
+ * App manages navigation between pages.
+ * Shared favourite state is handled by useFavourites.
+ * Business logic and data access are handled by
+ * services and repositories.
+ */
 function App() {
-  const [favouriteRoutes, setFavouriteRoutes] = useState<BusRoute[]>([]);
-
-  function addFavourite(route: BusRoute) {
-    if (!favouriteRoutes.some((item) => item.id === route.id)) {
-      setFavouriteRoutes([...favouriteRoutes, route]);
-    }
-  }
-
-  function removeFavourite(routeId: number) {
-    setFavouriteRoutes(
-      favouriteRoutes.filter((route) => route.id !== routeId)
-    );
-  }
-
-  function clearFavourites() {
-    setFavouriteRoutes([]);
-  }
-
   return (
     <>
       <header>
@@ -39,25 +27,11 @@ function App() {
 
       <main>
         <Routes>
-          <Route
-            path="/"
-            element={
-              <BusRoutes
-                onAddFavourite={addFavourite}
-                favouriteCount={favouriteRoutes.length}
-              />
-            }
-          />
+          <Route path="/" element={<BusRoutes />} />
 
           <Route
             path="/favourites"
-            element={
-              <FavouriteRoutes
-                favouriteRoutes={favouriteRoutes}
-                onRemoveFavourite={removeFavourite}
-                onClearFavourites={clearFavourites}
-              />
-            }
+            element={<FavouriteRoutes />}
           />
         </Routes>
       </main>
